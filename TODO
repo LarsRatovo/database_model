@@ -1,0 +1,21 @@
+Select :
+    ☐ Select all
+    ☐ Select One
+    ☐ Paginate
+    ☐ Where clause
+    ☐ And clause
+    ☐ Execute Clause
+    ☐ Raw
+    ☐ Foreign key
+
+Insert:
+    ☐ Get sequence
+    ☐ Insert
+    ☐ Insert with child
+
+Delete:
+    ☐ Delete
+
+Update:
+    ☐ Update with key
+    ☐ Update without key but specified column
