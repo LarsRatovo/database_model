@@ -1,13 +1,21 @@
 Select :
-    ☐ Select all
-    ☐ Select One
-    ☐ Paginate
-    ☐ Where clause
-    ☐ And clause
-    ☐ Execute Clause
-    ☐ Raw
-    ☐ Foreign key
-
+    ✔ Select all @done(23-05-14 15:13)
+    ✔ Select One @done(23-05-14 16:55)
+    ✔ Paginate @done(23-05-14 15:28)
+    Where clause:
+        ✔ = @done(23-05-14 15:43)
+        ✔ != @done(23-05-14 15:43)
+        ✔ like @done(23-05-14 15:43)
+        ✔ ilike @done(23-05-14 15:43)
+        ✔ > @done(23-05-14 15:43)
+        ✔ < @done(23-05-14 15:43)
+        ✔ >= @done(23-05-14 15:43)
+        ✔ <= @done(23-05-14 15:43)
+    ✔ And clause @done(23-05-14 15:43)
+    ✔ Execute Clause @done(23-05-16 10:25)
+    ✔ Foreign key @done(23-05-16 10:25)
+    ✔ Raw @done(23-05-16 10:25)
+    ✔ Test @done(23-05-16 10:25)
 Insert:
     ☐ Get sequence
     ☐ Insert
