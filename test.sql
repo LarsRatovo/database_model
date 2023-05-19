@@ -1,8 +1,14 @@
+CREATE TABLE jobs
+(
+    id SERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
+);
 CREATE TABLE persons
 (
     id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NUll,
     age INTEGER NOT NUll,
     birth DATE NOT NULL,
+    job INTEGER NOT NULL REFERENCES jobs(id),
     weight DOUBLE PRECISION
 );

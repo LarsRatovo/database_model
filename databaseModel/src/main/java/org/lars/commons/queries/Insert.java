@@ -90,7 +90,12 @@ public class Insert<M> extends Select<M> {
         for(Field f:fields){
             Column column=f.getAnnotation(Column.class);
             if(column.autogenMode()!=Query.self){
-                columnsBuilder.append(getSeqName(f,column));
+                columnsBuilder.append(",");
+                if(column.value().isBlank()){
+                    columnsBuilder.append(f.getName());
+                }else{
+                    columnsBuilder.append(column.value());
+                }
             }
         }
         columnsBuilder.deleteCharAt(0);
@@ -106,6 +111,7 @@ public class Insert<M> extends Select<M> {
         columnsBuilder.deleteCharAt(0);
         sqlBuilder.append(columnsBuilder);
         sqlBuilder.append(")");
+        System.out.println(sqlBuilder);
         try (PreparedStatement statement=connection.prepareStatement(sqlBuilder.toString())){
             int variable=1;
             for (Field field : fields) {
@@ -127,7 +133,7 @@ public class Insert<M> extends Select<M> {
             statement.execute();
         }
     }
-    private String getSeqName(Field field,Column column) throws SQLException {
+    private String getSeqName(Field field,Column column){
         String seqname = column.generator();
         if (seqname.isBlank()) {
             if (column.value().isBlank()) {
