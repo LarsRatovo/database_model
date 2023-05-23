@@ -1,5 +1,6 @@
 package org.lars.commons.queries;
 
+import org.lars.commons.queries.creator.CreatorException;
 import org.lars.commons.queries.creator.annotations.Column;
 
 import java.lang.reflect.Field;
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 
 public class Insert<M> extends Select<M> {
     private ArrayList<Field> fields;
-    public void insert(String tablename,Class<M> model){
-        super.select(tablename,model,null);
+    public void insert(String tablename,Class<M> model) throws CreatorException {
+        super.select(tablename,false,model,null);
         Class checking=model;
         fields=new ArrayList<>();
         while (checking!=null&&checking!= Select.class&&checking!= Insert.class){

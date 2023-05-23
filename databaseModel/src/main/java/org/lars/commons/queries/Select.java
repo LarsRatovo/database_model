@@ -1,22 +1,40 @@
 package org.lars.commons.queries;
 
+import org.lars.commons.queries.creator.CreatorException;
+import org.lars.commons.queries.creator.annotations.Join;
+
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Select<M> extends Query<M> {
     private String orderBy;
     private String limit;
-    protected String[] columns;
+    protected ArrayList<String> columns;
     private ArrayList<Where> wheres;
+    private ArrayList<Joinnable> joinnables;
     private String offset;
+    private boolean deep;
     private boolean or=false;
-    protected void select(String tablename,Class<M> classModel,String... columns){
+    protected void select(String tablename,boolean deep,Class<M> classModel,String... columns) throws CreatorException {
         this.tablename=tablename;
         this.model=classModel;
-        this.columns=columns;
+        if(columns!=null){
+            this.columns=new ArrayList<>();
+            for(String column:columns){
+                this.columns.add(column);
+            }
+        }else {
+            this.columns=getColumns(classModel);
+        }
+        if(deep){
+            this.joinnables=joins(classModel);
+        }
+        this.deep=deep;
     }
     public Select<M> limit(int limit){
         this.limit="LIMIT "+limit;
@@ -116,22 +134,46 @@ public class Select<M> extends Query<M> {
             wheres=new ArrayList<>();
         }
     }
-    public ResultSet execute(Connection connection) throws SQLException {
+    public QueryResult execute(Connection connection) throws SQLException {
         StringBuilder sqlBuilder=new StringBuilder();
         StringBuilder columnsBuilder=new StringBuilder();
         sqlBuilder.append("SELECT ");
-        if(columns!=null){
-            for(String column:columns){
-                columnsBuilder.append(",");
-                columnsBuilder.append(column.replace(" ",""));
-            }
-            columnsBuilder.deleteCharAt(0);
-        }else{
-            columnsBuilder.append("*");
+        for(String column:columns){
+            columnsBuilder.append(",");
+            columnsBuilder.append("r.").append(column.replace(" ", "")).append(" ");
+            columnsBuilder.append("r_").append(column.replace(" ", ""));
         }
+        if(deep){
+            for (int i = 0; i < joinnables.size(); i++) {
+                Joinnable joinnable=joinnables.get(i);
+                for(String column:joinnable.columns){
+                    columnsBuilder.append(",")
+                            .append("r").append(i).append(".")
+                            .append(column.replace(" ",""))
+                            .append(" ").append("r").append(i).append("_")
+                            .append(column.replace(" ",""));
+                }
+            }
+        }
+        columnsBuilder.deleteCharAt(0);
         sqlBuilder.append(columnsBuilder);
         sqlBuilder.append(" FROM ");
-        sqlBuilder.append(tablename);
+        sqlBuilder.append(tablename).append(" r");
+        if(deep){
+            for (int i = 0; i < joinnables.size(); i++) {
+                Joinnable joinnable = joinnables.get(i);
+                sqlBuilder.append(" JOIN ")
+                        .append(joinnable.tablename)
+                        .append(" r")
+                        .append(i)
+                        .append(" ON ")
+                        .append("r.").append(joinnable.localkey)
+                        .append("=r").append(i).append(".")
+                        .append(joinnable.foreignkey)
+                        .append(" ");
+                joinnable.alias="r"+i;
+            }
+        }
         if(wheres!=null){
             String separator;
             if(or){
@@ -170,7 +212,18 @@ public class Select<M> extends Query<M> {
                 statement.setObject(i,w.value);
             }
         }
-        return statement.executeQuery();
+        QueryResult queryResult=new QueryResult();
+        queryResult.rs=statement.executeQuery();
+        queryResult.joinnables=this.joinnables;
+        queryResult.aliases=new ArrayList<>();
+        queryResult.deep=deep;
+        queryResult.aliases.add("r");
+        if(deep){
+            for (int i = 0; i < joinnables.size(); i++) {
+                queryResult.aliases.add("r"+i);
+            }
+        }
+        return queryResult;
     }
     Object getGeneratedValue(String generator,Connection connection,Class type) throws SQLException {
         try(PreparedStatement statement=connection.prepareStatement("SELECT nextval(?)")){

@@ -1,6 +1,7 @@
 package org.lars.commons.queries;
 
 import org.lars.commons.queries.creator.Creator;
+import org.lars.commons.queries.creator.CreatorException;
 import org.lars.commons.queries.creator.annotations.Linked;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -42,8 +43,8 @@ public class View<M> extends Select<M>{
             return creator.createMany(this.execute(connection));
         }
     }
-    public View<M> select(String... columns) {
-        super.select(tablename, classModel, columns);
+    public View<M> select(boolean deep,String... columns) throws CreatorException {
+        super.select(tablename,deep, classModel, columns);
         return this;
     }
     private void checkCreator() throws NoSuchMethodException {

@@ -1,6 +1,7 @@
 package org.lars.commons.queries;
 
 import org.lars.commons.queries.creator.Creator;
+import org.lars.commons.queries.creator.CreatorException;
 import org.lars.commons.queries.creator.annotations.Linked;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Entity<M> extends Insert<M> {
             this.tablename=classModel.getSimpleName();
         }
     }
-    public void executeInsert() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException {
+    public void executeInsert() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException, CreatorException {
         insert(this.tablename,classModel);
         try (Connection connection = getConnection()) {
             this.executeInsert(connection);
@@ -43,7 +44,7 @@ public class Entity<M> extends Insert<M> {
             }
         }
     }
-    public void executeReturning() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException {
+    public void executeReturning() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException, CreatorException {
         insert(this.tablename,classModel);
         try (Connection connection=getConnection()){
             this.executeInsertReturning(connection);
@@ -71,8 +72,8 @@ public class Entity<M> extends Insert<M> {
             if(connection!=null)connection.close();
         }
     }
-    public Entity<M> select(String... columns) {
-        super.select(tablename, classModel, columns);
+    public Entity<M> select(boolean deep,String... columns) throws CreatorException{
+        super.select(tablename,deep, classModel, columns);
         return this;
     }
     private void checkCreator() throws NoSuchMethodException {
