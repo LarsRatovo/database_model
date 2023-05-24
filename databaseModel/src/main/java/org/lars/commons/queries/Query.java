@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class Query<M> {
     public static final int desc=1;
     public static final int asc=0;
+    public static final int oneToOne=0;
+    public static final int oneToMany=1;
     public static final int generator=1;
     public static final int self=2;
     static final int none=0;
@@ -53,9 +55,12 @@ public class Query<M> {
                     joinnable.tablename=join.table();
                     joinnable.foreignkey=join.foreignKey();
                     joinnable.localkey=join.localKey();
+                    joinnable.type=join.value();
                     field.setAccessible(true);
                     joinnable.f=field;
-                    joinnable.columns=getColumns(join.classModel());
+                    if(join.value()==Query.oneToOne){
+                        joinnable.columns=getColumns(join.classModel());
+                    }
                     joinnables.add(joinnable);
                 }
             }

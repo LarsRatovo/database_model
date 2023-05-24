@@ -13,4 +13,5 @@ public @interface Join {
     String localKey();
     String foreignKey();
     Class classModel();
+    boolean deep() default false;
 }

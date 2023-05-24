@@ -1,5 +1,6 @@
 package org.lars.commons.queries.creator;
 
+import org.lars.Person;
 import org.lars.commons.queries.*;
 import org.lars.commons.queries.creator.annotations.Column;
 import org.lars.commons.queries.creator.annotations.Join;
@@ -7,6 +8,7 @@ import org.lars.commons.queries.creator.annotations.Join;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,31 +16,30 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Creator<M> {
-    Class<M> model;
-    ArrayList<Field> fields;
-    Constructor<M> constructor;
-    public Creator(Class<M> model) throws NoSuchMethodException {
-        this.model=model;
-        fields=this.getFieldsOf(model);
-        constructor=model.getConstructor(null);
-    }
-    public M createOne(QueryResult rs) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public M createOne(QueryResult rs,Class model,Connection connection) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, CreatorException {
         rs.getRs().next();
-        return create(rs);
+        return create(rs,model,connection);
     }
-    public List<M> createMany(QueryResult rs) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public List<M> createMany(QueryResult rs,Class model,Connection connection) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, CreatorException {
         ArrayList<M> results=new ArrayList<>();
         while (rs.getRs().next()){
-            results.add(create(rs));
+            results.add(create(rs,model,connection));
         }
         return results;
     }
-    private M create(QueryResult queryResult) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
-        M result= (M) modulize(this.model,queryResult.getRs(),"r");
+    private M create(QueryResult queryResult,Class model, Connection connection) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, CreatorException, SQLException {
+        M result= (M) modulize(model,queryResult.getRs(),"r");
         if(queryResult.isDeep()){
             for(Joinnable joinnable:queryResult.getJoinnables()){
                 Join join=joinnable.getF().getAnnotation(Join.class);
-                joinnable.getF().set(result,modulize(join.classModel(),queryResult.getRs(), joinnable.getAlias()));
+                if(joinnable.getType()==Query.oneToOne){
+                    joinnable.getF().set(result,modulize(join.classModel(),queryResult.getRs(), joinnable.getAlias()));
+                }else if(joinnable.getType()==Query.oneToMany){
+                    Select select=new Select();
+                    select.select(join.table(),join.deep(),join.classModel());
+                    select.equals(join.foreignKey(),queryResult.getRs().getObject("r_"+join.localKey()));
+                    joinnable.getF().set(result,this.createMany(select.execute(connection),join.classModel(),connection));
+                }
             }
         }
         return result;

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Select<M> extends Query<M> {
     private String orderBy;
@@ -20,14 +21,12 @@ public class Select<M> extends Query<M> {
     private String offset;
     private boolean deep;
     private boolean or=false;
-    protected void select(String tablename,boolean deep,Class<M> classModel,String... columns) throws CreatorException {
+    public void select(String tablename,boolean deep,Class<M> classModel,String... columns) throws CreatorException {
         this.tablename=tablename;
         this.model=classModel;
         if(columns!=null&&columns.length>0){
             this.columns=new ArrayList<>();
-            for(String column:columns){
-                this.columns.add(column);
-            }
+            Collections.addAll(this.columns, columns);
         }else {
             this.columns=getColumns(classModel);
         }
@@ -146,12 +145,14 @@ public class Select<M> extends Query<M> {
         if(deep){
             for (int i = 0; i < joinnables.size(); i++) {
                 Joinnable joinnable=joinnables.get(i);
-                for(String column:joinnable.columns){
-                    columnsBuilder.append(",")
-                            .append("r").append(i).append(".")
-                            .append(column.replace(" ",""))
-                            .append(" ").append("r").append(i).append("_")
-                            .append(column.replace(" ",""));
+                if(joinnable.type==Query.oneToOne){
+                    for(String column:joinnable.columns){
+                        columnsBuilder.append(",")
+                                .append("r").append(i).append(".")
+                                .append(column.replace(" ",""))
+                                .append(" ").append("r").append(i).append("_")
+                                .append(column.replace(" ",""));
+                    }
                 }
             }
         }
@@ -162,16 +163,18 @@ public class Select<M> extends Query<M> {
         if(deep){
             for (int i = 0; i < joinnables.size(); i++) {
                 Joinnable joinnable = joinnables.get(i);
-                sqlBuilder.append(" JOIN ")
-                        .append(joinnable.tablename)
-                        .append(" r")
-                        .append(i)
-                        .append(" ON ")
-                        .append("r.").append(joinnable.localkey)
-                        .append("=r").append(i).append(".")
-                        .append(joinnable.foreignkey)
-                        .append(" ");
-                joinnable.alias="r"+i;
+                if(joinnable.type==Query.oneToOne){
+                    sqlBuilder.append(" JOIN ")
+                            .append(joinnable.tablename)
+                            .append(" r")
+                            .append(i)
+                            .append(" ON ")
+                            .append("r.").append(joinnable.localkey)
+                            .append("=r").append(i).append(".")
+                            .append(joinnable.foreignkey)
+                            .append(" ");
+                    joinnable.alias="r"+i;
+                }
             }
         }
         if(wheres!=null){

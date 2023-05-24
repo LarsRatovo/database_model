@@ -7,8 +7,10 @@ public class Joinnable {
     String tablename;
     String localkey;
     String foreignkey;
+    Integer type;
     String alias;
     Field f;
+    Field ref;
     ArrayList<String> columns;
 
     public Field getF() {
@@ -17,5 +19,13 @@ public class Joinnable {
 
     public String getAlias() {
         return alias;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public Field getRef() {
+        return ref;
     }
 }

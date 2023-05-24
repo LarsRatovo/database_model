@@ -50,23 +50,23 @@ public class Entity<M> extends Insert<M> {
             this.executeInsertReturning(connection);
         }
     }
-    public M executeOne() throws NoSuchMethodException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public M executeOne() throws NoSuchMethodException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, CreatorException {
         checkCreator();
         Connection connection=null;
         try {
             connection=getConnection();
-            M result=creator.createOne(this.execute(connection));
+            M result=creator.createOne(this.execute(connection),model,connection);
             return result;
         }finally {
             if(connection!=null)connection.close();
         }
     }
-    public List<M> executeMany() throws SQLException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public List<M> executeMany() throws SQLException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, CreatorException {
         checkCreator();
         Connection connection=null;
         try {
             connection=getConnection();
-            List<M> results=creator.createMany(this.execute(connection));
+            List<M> results=creator.createMany(this.execute(connection),model,connection);
             return results;
         }finally {
             if(connection!=null)connection.close();
@@ -78,7 +78,7 @@ public class Entity<M> extends Insert<M> {
     }
     private void checkCreator() throws NoSuchMethodException {
         if(creator==null){
-            creator=new Creator<>(this.classModel);
+            creator=new Creator<>();
         }
     }
     protected Connection getConnection() throws IOException, ClassNotFoundException, SQLException {
