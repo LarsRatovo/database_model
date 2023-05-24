@@ -23,7 +23,7 @@ public class Select<M> extends Query<M> {
     protected void select(String tablename,boolean deep,Class<M> classModel,String... columns) throws CreatorException {
         this.tablename=tablename;
         this.model=classModel;
-        if(columns!=null){
+        if(columns!=null&&columns.length>0){
             this.columns=new ArrayList<>();
             for(String column:columns){
                 this.columns.add(column);
