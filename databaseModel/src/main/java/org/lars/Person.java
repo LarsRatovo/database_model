@@ -1,6 +1,7 @@
 package org.lars;
 
 import org.lars.commons.queries.Entity;
+import org.lars.commons.queries.Query;
 import org.lars.commons.queries.creator.annotations.Column;
 import org.lars.commons.queries.creator.annotations.Key;
 import org.lars.commons.queries.creator.annotations.Linked;
@@ -9,7 +10,7 @@ import java.sql.Date;
 
 @Linked("persons")
 public class Person extends Entity<Person> {
-    @Column
+    @Column(autogen = true,autogenMode = Query.generator)
     @Key
     Integer id;
     @Column
@@ -23,9 +24,6 @@ public class Person extends Entity<Person> {
     @Column
     Double weight;
 
-    public Person() {
-        super(Person.class);
-    }
 
     public String getName() {
         return name;

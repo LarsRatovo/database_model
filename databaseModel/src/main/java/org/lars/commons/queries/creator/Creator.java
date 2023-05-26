@@ -45,8 +45,7 @@ public class Creator<M> {
         return result;
     }
     private Object modulize(Class classModel, ResultSet rs, String alias) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
-        Constructor constructor=classModel.getConstructor(null);
-        Object result=constructor.newInstance(null);
+        Object result=classModel.getConstructor().newInstance();
         ArrayList<Field> myFields=this.getFieldsOf(classModel);
         for(Field field:myFields){
             if(field.isAnnotationPresent(Column.class)){

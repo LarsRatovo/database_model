@@ -16,7 +16,4 @@ public class Job extends Entity<Job> {
     String name;
     @Join(value = Query.oneToMany, table = "persons", localKey = "id", foreignKey = "job", classModel = Person.class)
     ArrayList<Person> employes;
-    public Job() {
-        super(Job.class);
-    }
 }

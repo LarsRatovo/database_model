@@ -1,9 +1,12 @@
 package org.lars.commons.queries;
 
+import org.lars.commons.queries.creator.Creator;
 import org.lars.commons.queries.creator.CreatorException;
 import org.lars.commons.queries.creator.annotations.Join;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Select<M> extends Query<M> {
     private String orderBy;
@@ -19,11 +23,13 @@ public class Select<M> extends Query<M> {
     private ArrayList<Where> wheres;
     private ArrayList<Joinnable> joinnables;
     private String offset;
+    protected Creator<M> creator;
+
     private boolean deep;
     private boolean or=false;
-    public void select(String tablename,boolean deep,Class<M> classModel,String... columns) throws CreatorException {
-        this.tablename=tablename;
-        this.model=classModel;
+
+    private void initSelect(boolean deep,String[] columns) throws CreatorException {
+        this.deep=deep;
         if(columns!=null&&columns.length>0){
             this.columns=new ArrayList<>();
             Collections.addAll(this.columns, columns);
@@ -33,7 +39,16 @@ public class Select<M> extends Query<M> {
         if(deep){
             this.joinnables=joins(classModel);
         }
-        this.deep=deep;
+    }
+    public M select(boolean deep,String... columns) throws CreatorException{
+        init();
+        initSelect(deep,columns);
+        return (M)this;
+    }
+    public void select(String tablename,boolean deep,Class<M> classModel,String... columns) throws CreatorException {
+        this.tablename=tablename;
+        this.classModel=classModel;
+        initSelect(deep,columns);
     }
     public Select<M> limit(int limit){
         this.limit="LIMIT "+limit;
@@ -228,8 +243,20 @@ public class Select<M> extends Query<M> {
         }
         return queryResult;
     }
+    public M executeOne() throws NoSuchMethodException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, CreatorException {
+        checkCreator();
+        try (Connection connection = getConnection()) {
+            return creator.createOne(this.execute(connection), classModel, connection);
+        }
+    }
+    public List<M> executeMany() throws SQLException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, CreatorException {
+        checkCreator();
+        try (Connection connection = getConnection()) {
+            return creator.createMany(this.execute(connection), classModel, connection);
+        }
+    }
     Object getGeneratedValue(String generator,Connection connection,Class type) throws SQLException {
-        try(PreparedStatement statement=connection.prepareStatement("SELECT nextval(?)")){
+        try(PreparedStatement statement=connection.prepareStatement("SELECT nextval(?)::"+type.getName().replace("java.lang.",""))){
             statement.setString(1,generator);
             ResultSet rs=statement.executeQuery();
             rs.next();
@@ -247,5 +274,10 @@ public class Select<M> extends Query<M> {
             }
         }
         return statement.executeQuery();
+    }
+    private void checkCreator(){
+        if(creator==null){
+            creator=new Creator<>();
+        }
     }
 }

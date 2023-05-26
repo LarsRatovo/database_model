@@ -3,6 +3,7 @@ package org.lars.commons.queries;
 import org.lars.commons.queries.creator.CreatorException;
 import org.lars.commons.queries.creator.annotations.Column;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,21 +11,74 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Insert<M> extends Select<M> {
-    protected ArrayList<Field> fields;
-    public void insert(String tablename,Class<M> model) throws CreatorException {
-        super.select(tablename,false,model,null);
-        Class checking=model;
-        fields=new ArrayList<>();
-        while (checking!=null&&checking!= Select.class&&checking!= Insert.class){
-            for(Field field:checking.getDeclaredFields()){
-                if(field.isAnnotationPresent(Column.class)){
-                    fields.add(field);
+    public void insert() throws SQLException, IllegalAccessException, IOException, ClassNotFoundException {
+        try (Connection connection=getConnection()){
+            try (PreparedStatement statement=connection.prepareStatement(generateStringSql(false))){
+                int variable=1;
+                for (Field field : fields) {
+                    Column column = field.getAnnotation(Column.class);
+                    if (column.autogen()) {
+                        if (column.autogenMode() == Query.generator) {
+                            String seqname = column.generator();
+                            if (seqname.isBlank()) {
+                                if (column.value().isBlank()) {
+                                    seqname = this.tablename + "_" + field.getName() + "_seq";
+                                } else {
+                                    seqname = this.tablename + "_" + column.value() + "_seq";
+                                }
+                            }
+                            statement.setString(variable,seqname);
+                            variable++;
+                        }
+                    } else {
+                        field.setAccessible(true);
+                        statement.setObject(variable, field.get(this));
+                        field.setAccessible(false);
+                        variable++;
+                    }
                 }
+                statement.execute();
             }
-            checking=checking.getSuperclass();
         }
     }
-    protected void executeInsert(Connection connection) throws SQLException, IllegalAccessException {
+    public void insertReturning() throws SQLException, IllegalAccessException, IOException, ClassNotFoundException {
+        try (Connection connection=getConnection()){
+            try (PreparedStatement statement=connection.prepareStatement(generateStringSql(true))){
+                int variable=1;
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    Column column = field.getAnnotation(Column.class);
+                    if (column.autogen()) {
+                        if (column.autogenMode() == Query.generator) {
+                            Object generated =this.getGeneratedValue(getSeqName(field,column),connection,field.getType());
+                            field.set(this, generated);
+                            statement.setObject(variable, generated);
+                            variable++;
+                        }
+                    } else {
+                        statement.setObject(variable, field.get(this));
+                        variable++;
+                    }
+                    field.setAccessible(false);
+                }
+                statement.execute();
+            }
+        }
+    }
+    private String getSeqName(Field field,Column column){
+        String seqname = column.generator();
+        if (seqname.isBlank()) {
+            if (column.value().isBlank()) {
+                seqname = this.tablename + "_" + field.getName() + "_seq";
+            } else {
+                seqname = this.tablename + "_" + column.value() + "_seq";
+            }
+        }
+        return seqname;
+    }
+    private String generateStringSql(boolean returning){
+        init();
+        initFields();
         StringBuilder sqlBuilder=new StringBuilder();
         sqlBuilder.append("INSERT INTO ");
         sqlBuilder.append(this.tablename);
@@ -49,100 +103,19 @@ public class Insert<M> extends Select<M> {
         columnsBuilder=new StringBuilder();
         for(Field f:fields){
             Column column=f.getAnnotation(Column.class);
-            if(!column.autogen()||column.autogenMode()==Query.generator){
+            if(column.autogen()){
+                if(!returning){
+                    columnsBuilder.append(",NEXTVAL(?)");
+                }else {
+                    columnsBuilder.append(",?");
+                }
+            }else{
                 columnsBuilder.append(",?");
             }
         }
         columnsBuilder.deleteCharAt(0);
         sqlBuilder.append(columnsBuilder);
         sqlBuilder.append(")");
-        try (PreparedStatement statement=connection.prepareStatement(sqlBuilder.toString())){
-            int variable=1;
-            for (int i = 0; i < fields.size(); i++) {
-                Column column=fields.get(i).getAnnotation(Column.class);
-                if(column.autogen()){
-                    if(column.autogenMode()==Query.generator){
-                        String seqname=column.generator();
-                        if(seqname.isBlank()){
-                            if(column.value().isBlank()){
-                                seqname=this.tablename+"_"+fields.get(i).getName()+"_seq";
-                            }else {
-                                seqname=this.tablename+"_"+column.value()+"_seq";
-                            }
-                        }
-                        statement.setString(i+1,"NEXTVAL('"+seqname+"')");
-                    }
-                }else{
-                    fields.get(i).setAccessible(true);
-                    statement.setObject(variable,fields.get(i).get(this));
-                    fields.get(i).setAccessible(false);
-                    variable++;
-                }
-            }
-            statement.execute();
-        }
-    }
-    protected void executeInsertReturning(Connection connection) throws SQLException, IllegalAccessException{
-        StringBuilder sqlBuilder=new StringBuilder();
-        sqlBuilder.append("INSERT INTO ");
-        sqlBuilder.append(this.tablename);
-        sqlBuilder.append("(");
-        StringBuilder columnsBuilder=new StringBuilder();
-        for(Field f:fields){
-            Column column=f.getAnnotation(Column.class);
-            if(column.autogenMode()!=Query.self){
-                columnsBuilder.append(",");
-                if(column.value().isBlank()){
-                    columnsBuilder.append(f.getName());
-                }else{
-                    columnsBuilder.append(column.value());
-                }
-            }
-        }
-        columnsBuilder.deleteCharAt(0);
-        sqlBuilder.append(columnsBuilder);
-        sqlBuilder.append(") VALUES (");
-        columnsBuilder=new StringBuilder();
-        for(Field f:fields){
-            Column column=f.getAnnotation(Column.class);
-            if(column.autogenMode()!=Query.self){
-                columnsBuilder.append(",?");
-            }
-        }
-        columnsBuilder.deleteCharAt(0);
-        sqlBuilder.append(columnsBuilder);
-        sqlBuilder.append(")");
-        System.out.println(sqlBuilder);
-        try (PreparedStatement statement=connection.prepareStatement(sqlBuilder.toString())){
-            int variable=1;
-            for (Field field : fields) {
-                field.setAccessible(true);
-                Column column = field.getAnnotation(Column.class);
-                if (column.autogen()) {
-                    if (column.autogenMode() == Query.generator) {
-                        Object generated =this.getGeneratedValue(getSeqName(field,column),connection,field.getType());
-                        field.set(this, generated);
-                        statement.setObject(variable, generated);
-                        variable++;
-                    }
-                } else {
-                    statement.setObject(variable, field.get(this));
-                    variable++;
-                }
-                field.setAccessible(false);
-            }
-            statement.execute();
-        }
-    }
-    private String getSeqName(Field field,Column column){
-        String seqname = column.generator();
-        if (seqname.isBlank()) {
-            if (column.value().isBlank()) {
-                seqname = this.tablename + "_" + field.getName() + "_seq";
-            } else {
-                seqname = this.tablename + "_" + column.value() + "_seq";
-            }
-        }
-        return seqname;
+        return sqlBuilder.toString();
     }
 }
