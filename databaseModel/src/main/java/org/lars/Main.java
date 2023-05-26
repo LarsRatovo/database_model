@@ -9,22 +9,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws CreatorException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Job j=new Job();
-        List<Job> jobs=j.select(true)
-                .executeMany();
-        for(Job job:jobs){
-            System.out.println("id job : "+job.id);
-            System.out.println("name job : "+job.name);
-            for (Person person:job.employes) {
-                System.out.println(
-                        "id: "+person.id+
-                        " name:"+person.name+
-                        " birth:"+person.birth+
-                        " age: "+person.age+
-                        "weight: "+person.weight+
-                        "job: "+person.job);
-            }
-            System.out.println("-----------------");
+        for(Person person:new Person().select(false).executeMany()){
+            person.name="Test";
+            person.age=null;
+            person.weight=10.;
+            person.executeUpdate();
         }
     }
 }

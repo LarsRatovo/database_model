@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Insert<M> extends Select<M> {
-    private ArrayList<Field> fields;
+    protected ArrayList<Field> fields;
     public void insert(String tablename,Class<M> model) throws CreatorException {
         super.select(tablename,false,model,null);
         Class checking=model;

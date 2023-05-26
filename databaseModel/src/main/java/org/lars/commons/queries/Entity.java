@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
-public class Entity<M> extends Insert<M> {
+public class Entity<M> extends Update<M> {
     Class<M> classModel;
     Creator<M> creator;
     public Entity(Class<M> classModel){
@@ -79,6 +79,12 @@ public class Entity<M> extends Insert<M> {
     private void checkCreator() throws NoSuchMethodException {
         if(creator==null){
             creator=new Creator<>();
+        }
+    }
+    public void executeUpdate() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException, CreatorException {
+        super.update(tablename,classModel);
+        try (Connection connection=getConnection()){
+            this.executeUpdate(connection);
         }
     }
     protected Connection getConnection() throws IOException, ClassNotFoundException, SQLException {

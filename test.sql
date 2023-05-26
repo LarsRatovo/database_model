@@ -26,3 +26,10 @@ INSERT INTO persons (name, age, birth, job, weight) VALUES
 ('Michael Johnson', 41, '1982-05-10', 3, 75.8),
 ('Sarah Wilson', 28, '1995-11-07', 4, 60.1),
 ('David Brown', 37, '1986-08-29', 5, 83.6);
+
+CREATE TABLE transfer
+(
+    person INTEGER NOT NULL REFERENCES persons(id),
+    job INTEGER NOT NULL REFERENCES jobs(id),
+    transfer_date DATE NOT NULL
+);
