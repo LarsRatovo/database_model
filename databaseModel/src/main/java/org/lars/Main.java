@@ -21,7 +21,6 @@ public class Main {
         person.age=69;
         person.job=1;
         person.birth= Date.valueOf(LocalDate.now());
-        person.insert();
         System.out.println("Generated id : "+person.id);
     }
 }
