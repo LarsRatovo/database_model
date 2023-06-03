@@ -2,9 +2,7 @@ package org.lars;
 import org.lars.commons.queries.creator.CreatorException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) throws CreatorException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -39,7 +37,6 @@ public class Main {
         for (Person p:person.select(true).executeMany()){
             System.out.println("Id : "+p.id);
             System.out.println("Name : "+p.name);
-            p.name="DODU";
             System.out.println("Birth : "+p.birth);
             System.out.println("Age : "+p.age);
             System.out.println("Weight : "+p.weight);
@@ -48,10 +45,8 @@ public class Main {
                 System.out.println("Person : "+t.person);
                 System.out.println("Job : "+t.job);
                 System.out.println("History job id : "+t.history_job.id+" History job name "+t.history_job.name);
-                t.transfer_date= Date.valueOf(LocalDate.now());
                 System.out.println("Transfert Date : "+t.transfer_date);
             }
-            p.update(true);
             System.out.println("-----------------");
         }
     }

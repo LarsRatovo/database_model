@@ -11,12 +11,27 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Insert<M> extends Select<M> {
-    public void insert() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException {
-        try (Connection connection=getConnection()){
+    public void insert() throws CreatorException {
+        Connection connection;
+        try {
+            connection = getConnection();
+            connection.setAutoCommit(false);
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new CreatorException("Cannot open the connection : "+e.getMessage(),e);
+        }
+        try(connection){
             this.insert(connection);
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new CreatorException("Error occurred and trying to rollback but : "+e.getMessage(),e);
+            }
+            throw new CreatorException("Cannot commit the query : "+e.getMessage(),e);
         }
     }
-    private void insert(Connection connection) throws SQLException, IllegalAccessException, IOException, ClassNotFoundException {
+    private void insert(Connection connection) throws CreatorException {
         try (PreparedStatement statement=connection.prepareStatement(generateStringSql(false))){
             int variable=1;
             for (Field field : fields) {
@@ -42,9 +57,13 @@ public class Insert<M> extends Select<M> {
                 }
             }
             statement.execute();
+        } catch (SQLException e) {
+            throw new CreatorException("Cannot open statement : "+e.getMessage(),e);
+        }catch ( IllegalAccessException  e){
+            throw new CreatorException("Cannot access the field : "+e.getMessage(),e);
         }
     }
-    public void insertReturning(boolean deep) throws SQLException, IllegalAccessException, IOException, ClassNotFoundException, CreatorException {
+    public void insertReturning(boolean deep) throws CreatorException {
         try (Connection connection=getConnection()){
             try (PreparedStatement statement=connection.prepareStatement(generateStringSql(true))){
                 int variable=1;

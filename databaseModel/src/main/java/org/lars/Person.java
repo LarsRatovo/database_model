@@ -23,7 +23,7 @@ public class Person extends Entity<Person> {
     Date birth;
     @Column
     Double weight;
-    @Join(value = Query.oneToOne,table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
+    @Join(table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
     Job actual_job;
     @Join(value = Query.manyToMany,table = "transfer",localKey = "id",foreignKey = "person",classModel = Transfer.class,deep = true)
     ArrayList<Transfer> transfers;

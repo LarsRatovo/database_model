@@ -243,16 +243,20 @@ public class Select<M> extends Query<M> {
         }
         return queryResult;
     }
-    public M executeOne() throws NoSuchMethodException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, CreatorException {
+    public M executeOne() throws CreatorException {
         checkCreator();
         try (Connection connection = getConnection()) {
-            return creator.createOne(this.execute(connection), classModel, connection);
+            return creator.createOne(this.execute(connection), this.getClass(), connection);
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new CreatorException("Cannot open connection due to : "+e.getMessage(),e);
         }
     }
-    public List<M> executeMany() throws SQLException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, CreatorException {
+    public List<M> executeMany() throws CreatorException {
         checkCreator();
         try (Connection connection = getConnection()) {
             return creator.createMany(this.execute(connection), classModel, connection);
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new CreatorException("Cannot open connection due to : "+e.getMessage(),e);
         }
     }
     Object getGeneratedValue(String generator,Connection connection,Class type) throws SQLException {
@@ -265,7 +269,7 @@ public class Select<M> extends Query<M> {
             return type.cast(generated);
         }
     }
-    public ResultSet executeRaw(String raw, Connection connection) throws Exception {
+    public ResultSet executeRaw(String raw, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(raw);
         if (wheres != null) {
             for (int i = 1; i <= wheres.size(); i++) {
