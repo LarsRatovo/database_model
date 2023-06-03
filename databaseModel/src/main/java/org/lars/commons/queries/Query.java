@@ -18,6 +18,7 @@ public class Query<M> {
     public static final int asc=0;
     public static final int oneToOne=0;
     public static final int oneToMany=1;
+    public static final int manyToMany=2;
     public static final int generator=1;
     public static final int self=2;
     protected Class<M> classModel;
@@ -64,6 +65,7 @@ public class Query<M> {
                     joinnable.foreignkey=join.foreignKey();
                     joinnable.localkey=join.localKey();
                     joinnable.type=join.value();
+                    joinnable.foreignType=join.classModel();
                     field.setAccessible(true);
                     joinnable.f=field;
                     if(join.value()==Query.oneToOne){
@@ -96,6 +98,19 @@ public class Query<M> {
             }
             checking=checking.getSuperclass();
         }
+    }
+    protected ArrayList<Field> initFieldsof(Class checkingClass){
+        ArrayList<Field> myfields=new ArrayList<>();
+        Class checking=checkingClass;
+        while (checking!=null&&checking!= Entity.class&&checking!=View.class){
+            for(Field field:checking.getDeclaredFields()){
+                if(field.isAnnotationPresent(Column.class)){
+                    myfields.add(field);
+                }
+            }
+            checking=checking.getSuperclass();
+        }
+        return  myfields;
     }
     protected Connection getConnection() throws IOException, ClassNotFoundException, SQLException {
         Properties properties=new Properties();

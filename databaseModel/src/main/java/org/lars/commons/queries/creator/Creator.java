@@ -34,7 +34,7 @@ public class Creator<M> {
                 Join join=joinnable.getF().getAnnotation(Join.class);
                 if(joinnable.getType()==Query.oneToOne){
                     joinnable.getF().set(result,modulize(join.classModel(),queryResult.getRs(), joinnable.getAlias()));
-                }else if(joinnable.getType()==Query.oneToMany){
+                }else{
                     Select select=new Select();
                     select.select(join.table(),join.deep(),join.classModel());
                     select.equals(join.foreignKey(),queryResult.getRs().getObject("r_"+join.localKey()));
@@ -51,7 +51,7 @@ public class Creator<M> {
             if(field.isAnnotationPresent(Column.class)){
                 Column column=field.getAnnotation(Column.class);
                 try {
-                    Object value=null;
+                    Object value;
                     if(!column.value().isBlank()){
                         value=rs.getObject(alias+"_"+column.value());
                     }else{

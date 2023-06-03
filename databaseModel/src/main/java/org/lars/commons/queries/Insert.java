@@ -8,40 +8,43 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Insert<M> extends Select<M> {
-    public void insert() throws SQLException, IllegalAccessException, IOException, ClassNotFoundException {
+    public void insert() throws SQLException, IOException, ClassNotFoundException, IllegalAccessException {
         try (Connection connection=getConnection()){
-            try (PreparedStatement statement=connection.prepareStatement(generateStringSql(false))){
-                int variable=1;
-                for (Field field : fields) {
-                    Column column = field.getAnnotation(Column.class);
-                    if (column.autogen()) {
-                        if (column.autogenMode() == Query.generator) {
-                            String seqname = column.generator();
-                            if (seqname.isBlank()) {
-                                if (column.value().isBlank()) {
-                                    seqname = this.tablename + "_" + field.getName() + "_seq";
-                                } else {
-                                    seqname = this.tablename + "_" + column.value() + "_seq";
-                                }
-                            }
-                            statement.setString(variable,seqname);
-                            variable++;
-                        }
-                    } else {
-                        field.setAccessible(true);
-                        statement.setObject(variable, field.get(this));
-                        field.setAccessible(false);
-                        variable++;
-                    }
-                }
-                statement.execute();
-            }
+            this.insert(connection);
         }
     }
-    public void insertReturning() throws SQLException, IllegalAccessException, IOException, ClassNotFoundException {
+    private void insert(Connection connection) throws SQLException, IllegalAccessException, IOException, ClassNotFoundException {
+        try (PreparedStatement statement=connection.prepareStatement(generateStringSql(false))){
+            int variable=1;
+            for (Field field : fields) {
+                Column column = field.getAnnotation(Column.class);
+                if (column.autogen()) {
+                    if (column.autogenMode() == Query.generator) {
+                        String seqname = column.generator();
+                        if (seqname.isBlank()) {
+                            if (column.value().isBlank()) {
+                                seqname = this.tablename + "_" + field.getName() + "_seq";
+                            } else {
+                                seqname = this.tablename + "_" + column.value() + "_seq";
+                            }
+                        }
+                        statement.setString(variable,seqname);
+                        variable++;
+                    }
+                } else {
+                    field.setAccessible(true);
+                    statement.setObject(variable, field.get(this));
+                    field.setAccessible(false);
+                    variable++;
+                }
+            }
+            statement.execute();
+        }
+    }
+    public void insertReturning(boolean deep) throws SQLException, IllegalAccessException, IOException, ClassNotFoundException, CreatorException {
         try (Connection connection=getConnection()){
             try (PreparedStatement statement=connection.prepareStatement(generateStringSql(true))){
                 int variable=1;
@@ -62,6 +65,9 @@ public class Insert<M> extends Select<M> {
                     field.setAccessible(false);
                 }
                 statement.execute();
+                if(deep){
+                    deepInsert(connection);
+                }
             }
         }
     }
@@ -117,5 +123,42 @@ public class Insert<M> extends Select<M> {
         sqlBuilder.append(columnsBuilder);
         sqlBuilder.append(")");
         return sqlBuilder.toString();
+    }
+    private void deepInsert(Connection connection) throws CreatorException, IllegalAccessException, SQLException, IOException, ClassNotFoundException {
+        for(Joinnable j:this.joins(this.getClass())){
+            if(j.type==Query.manyToMany){
+                List<?> deeps= (List<?>) j.f.get(this);
+                for(Object o:deeps){
+                    List<Field> miniFields=this.initFieldsof(j.foreignType);
+                    for(Field f:miniFields){
+                        Column col=f.getAnnotation(Column.class);
+                        if(col!=null){
+                            String name=col.value();
+                            if(name.isBlank()){
+                                name=f.getName();
+                            }
+                            if(name.equalsIgnoreCase(j.foreignkey)){
+                                f.setAccessible(true);
+                                for(Field fm:this.fields){
+                                    Column colm=fm.getAnnotation(Column.class);
+                                    String namem=colm.value();
+                                    if(namem.isBlank()){
+                                        namem=fm.getName();
+                                    }
+                                    if(namem.equalsIgnoreCase(j.localkey)){
+                                        fm.setAccessible(true);
+                                        f.set(o,fm.get(this));
+                                        break;
+                                    }
+                                }
+                                f.setAccessible(false);
+                                ((Insert)o).insert(connection);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ public class Joinnable {
     Field f;
     Field ref;
     ArrayList<String> columns;
+    Class foreignType;
 
     public Field getF() {
         return f;
@@ -27,5 +28,9 @@ public class Joinnable {
 
     public Field getRef() {
         return ref;
+    }
+
+    public Class getForeignType() {
+        return foreignType;
     }
 }
