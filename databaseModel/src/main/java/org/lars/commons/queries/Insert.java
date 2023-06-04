@@ -88,6 +88,10 @@ public class Insert<M> extends Select<M> {
                     deepInsert(connection);
                 }
             }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new CreatorException("Sql traitement due to :"+e.getMessage(),e);
+        }catch (IllegalAccessException e){
+            throw new CreatorException("Cannot access to the field : "+e.getMessage(),e);
         }
     }
     private String getSeqName(Field field,Column column){
@@ -143,10 +147,15 @@ public class Insert<M> extends Select<M> {
         sqlBuilder.append(")");
         return sqlBuilder.toString();
     }
-    private void deepInsert(Connection connection) throws CreatorException, IllegalAccessException, SQLException, IOException, ClassNotFoundException {
+    private void deepInsert(Connection connection) throws CreatorException{
         for(Joinnable j:this.joins(this.getClass())){
             if(j.type==Query.manyToMany){
-                List<?> deeps= (List<?>) j.f.get(this);
+                List<?> deeps= null;
+                try {
+                    deeps = (List<?>) j.f.get(this);
+                } catch (IllegalAccessException e) {
+                    throw new CreatorException("Cannot access to the field "+j.f.getName(),e);
+                }
                 for(Object o:deeps){
                     List<Field> miniFields=this.initFieldsof(j.foreignType);
                     for(Field f:miniFields){
@@ -166,7 +175,11 @@ public class Insert<M> extends Select<M> {
                                     }
                                     if(namem.equalsIgnoreCase(j.localkey)){
                                         fm.setAccessible(true);
-                                        f.set(o,fm.get(this));
+                                        try {
+                                            f.set(o,fm.get(this));
+                                        } catch (IllegalAccessException e) {
+                                            throw new CreatorException("Cannot access to "+fm.getName(),e);
+                                        }
                                         break;
                                     }
                                 }
