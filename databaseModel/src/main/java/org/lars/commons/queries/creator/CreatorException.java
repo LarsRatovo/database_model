@@ -10,6 +10,10 @@ public class CreatorException extends Exception{
         this.original=original;
     }
 
+    public CreatorException(String message) {
+        super(message);
+    }
+
     public Exception getOriginal() {
         return original;
     }
