@@ -64,32 +64,35 @@ public class Insert<M> extends Select<M> {
         }
     }
     public void insertReturning(boolean deep) throws CreatorException {
-        try (Connection connection=getConnection()){
-            try (PreparedStatement statement=connection.prepareStatement(generateStringSql(true))){
-                int variable=1;
-                for (Field field : fields) {
-                    field.setAccessible(true);
-                    Column column = field.getAnnotation(Column.class);
-                    if (column.autogen()) {
-                        if (column.autogenMode() == Query.generator) {
-                            Object generated =this.getGeneratedValue(getSeqName(field,column),connection,field.getType());
-                            field.set(this, generated);
-                            statement.setObject(variable, generated);
+        try {
+            Connection connection=getConnection();
+            try (connection){
+                try (PreparedStatement statement=connection.prepareStatement(generateStringSql(true))){
+                    int variable=1;
+                    for (Field field : fields) {
+                        field.setAccessible(true);
+                        Column column = field.getAnnotation(Column.class);
+                        if (column.autogen()) {
+                            if (column.autogenMode() == Query.generator) {
+                                Object generated =this.getGeneratedValue(getSeqName(field,column),connection,field.getType());
+                                field.set(this, generated);
+                                statement.setObject(variable, generated);
+                                variable++;
+                            }
+                        } else {
+                            statement.setObject(variable, field.get(this));
                             variable++;
                         }
-                    } else {
-                        statement.setObject(variable, field.get(this));
-                        variable++;
+                        field.setAccessible(false);
                     }
-                    field.setAccessible(false);
-                }
-                statement.execute();
-                if(deep){
-                    deepInsert(connection);
+                    statement.execute();
+                    if(deep){
+                        deepInsert(connection);
+                    }
                 }
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            throw new CreatorException("Sql traitement due to :"+e.getMessage(),e);
+            throw new CreatorException("Cannot create the connection or sql error : "+e.getMessage(),e);
         }catch (IllegalAccessException e){
             throw new CreatorException("Cannot access to the field : "+e.getMessage(),e);
         }

@@ -25,7 +25,7 @@ public class Person extends Entity<Person> {
     Double weight;
     @Join(table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
     Job actual_job;
-    @Join(value = Query.manyToMany,table = "transfer",localKey = "id",foreignKey = "person",classModel = Transfer.class,deep = true)
+    @Join(value = Query.manyToMany,table = "transfer",localKey = "id",foreignKey = "person",classModel = Transfer.class,deep = true,dropsOnDelete = true)
     ArrayList<Transfer> transfers;
 
     public String getName() {

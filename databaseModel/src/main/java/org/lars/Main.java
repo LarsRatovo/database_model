@@ -34,20 +34,23 @@ public class Main {
 //        person.transfers.add(t2);
 //        person.transfers.add(t3);
 //        person.insertReturning(true);
+//        for (Person p:person.select(true).executeMany()){
+//            System.out.println("Id : "+p.id);
+//            System.out.println("Name : "+p.name);
+//            System.out.println("Birth : "+p.birth);
+//            System.out.println("Age : "+p.age);
+//            System.out.println("Weight : "+p.weight);
+//            System.out.println("Actual job id : "+p.actual_job.id+" actual job name : "+p.actual_job.name);
+//            for(Transfer t:p.transfers){
+//                System.out.println("Person : "+t.person);
+//                System.out.println("Job : "+t.job);
+//                System.out.println("History job id : "+t.history_job.id+" History job name "+t.history_job.name);
+//                System.out.println("Transfert Date : "+t.transfer_date);
+//            }
+//            System.out.println("-----------------");
+//        }
         for (Person p:person.select(true).executeMany()){
-            System.out.println("Id : "+p.id);
-            System.out.println("Name : "+p.name);
-            System.out.println("Birth : "+p.birth);
-            System.out.println("Age : "+p.age);
-            System.out.println("Weight : "+p.weight);
-            System.out.println("Actual job id : "+p.actual_job.id+" actual job name : "+p.actual_job.name);
-            for(Transfer t:p.transfers){
-                System.out.println("Person : "+t.person);
-                System.out.println("Job : "+t.job);
-                System.out.println("History job id : "+t.history_job.id+" History job name "+t.history_job.name);
-                System.out.println("Transfert Date : "+t.transfer_date);
-            }
-            System.out.println("-----------------");
+            p.delete();
         }
     }
 }

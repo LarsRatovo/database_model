@@ -66,6 +66,7 @@ public class Query<M> {
                     joinnable.localkey=join.localKey();
                     joinnable.type=join.value();
                     joinnable.foreignType=join.classModel();
+                    joinnable.dropsOnDelete=join.dropsOnDelete();
                     field.setAccessible(true);
                     joinnable.f=field;
                     if(join.value()==Query.oneToOne){

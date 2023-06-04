@@ -10,9 +10,9 @@ public class Joinnable {
     Integer type;
     String alias;
     Field f;
-    Field ref;
     ArrayList<String> columns;
     Class foreignType;
+    boolean dropsOnDelete;
 
     public Field getF() {
         return f;
@@ -26,11 +26,4 @@ public class Joinnable {
         return type;
     }
 
-    public Field getRef() {
-        return ref;
-    }
-
-    public Class getForeignType() {
-        return foreignType;
-    }
 }

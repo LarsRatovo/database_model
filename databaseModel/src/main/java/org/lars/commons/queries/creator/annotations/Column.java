@@ -12,5 +12,4 @@ public @interface Column {
     boolean autogen() default false;
     int autogenMode() default 0;
     String generator() default "";
-    boolean insert() default true;
 }

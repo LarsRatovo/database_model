@@ -13,5 +13,7 @@ public @interface Join {
     String localKey();
     String foreignKey();
     Class classModel();
+
+    boolean dropsOnDelete() default false;
     boolean deep() default false;
 }
