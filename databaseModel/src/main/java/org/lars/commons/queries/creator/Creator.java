@@ -1,11 +1,9 @@
 package org.lars.commons.queries.creator;
 
-import org.lars.Person;
 import org.lars.commons.queries.*;
 import org.lars.commons.queries.creator.annotations.Column;
 import org.lars.commons.queries.creator.annotations.Join;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
