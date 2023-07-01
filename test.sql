@@ -10,7 +10,7 @@ CREATE TABLE persons
     age INTEGER NOT NUll,
     birth DATE NOT NULL,
     job INTEGER NOT NULL REFERENCES jobs(id),
-    weight DOUBLE PRECISION
+    weight DECIMAL(12,2)
 );
 
 CREATE TABLE transfer

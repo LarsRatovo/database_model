@@ -4,11 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c66c90e-95af-4608-9260-8599f506ec3f" name="Changes" comment="" />
+    <list default="true" id="9c66c90e-95af-4608-9260-8599f506ec3f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/DatabaseModelException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/KeyValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Stretch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/SelectBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Generate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TODO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Transfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Transfer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Delete.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Insert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Joinnable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Query.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Select.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Select.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Update.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Where.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Where.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/Creator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/Creator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/CreatorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/CreatorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Join.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Extension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/database.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/database.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../test.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -21,25 +57,40 @@
     </option>
   </component>
   <component name="ProjectId" id="2QlnIJP53vqXvFO3Qho9Lz5mucC" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Factorisation",
+    "git-widget-placeholder": "integration__detail",
     "last_opened_file_path": "/home/larsr/Documents/GitHub/database_model/databaseModel",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="DataBaseModel" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.lars.Main" />
+      <module name="databaseModel" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -51,10 +102,43 @@
       <workItem from="1685936963842" duration="27000" />
       <workItem from="1685956561120" duration="51000" />
       <workItem from="1685956627050" duration="481000" />
+      <workItem from="1687972846534" duration="913000" />
+      <workItem from="1687974170353" duration="247000" />
+      <workItem from="1687974588892" duration="101000" />
+      <workItem from="1688054803775" duration="3246000" />
+      <workItem from="1688179966152" duration="20000" />
+      <workItem from="1688194938360" duration="19008000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Select.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/Creator.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

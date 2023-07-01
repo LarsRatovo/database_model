@@ -1,9 +1,8 @@
 package org.lars;
 
 import org.lars.commons.queries.Entity;
-import org.lars.commons.queries.Query;
 import org.lars.commons.queries.creator.annotations.Column;
-import org.lars.commons.queries.creator.annotations.Join;
+import org.lars.commons.queries.creator.annotations.Extension;
 import org.lars.commons.queries.creator.annotations.Linked;
 
 import java.sql.Date;
@@ -16,6 +15,6 @@ public class Transfer extends Entity<Transfer> {
     Integer job;
     @Column
     Date transfer_date;
-    @Join(value = Query.oneToOne,table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
+    @Extension(table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
     Job history_job;
 }

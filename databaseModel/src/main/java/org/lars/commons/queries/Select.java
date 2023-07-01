@@ -1,31 +1,23 @@
 package org.lars.commons.queries;
-
+import org.lars.commons.queries.builders.SelectBuilder;
 import org.lars.commons.queries.creator.Creator;
 import org.lars.commons.queries.creator.CreatorException;
-import org.lars.commons.queries.creator.annotations.Join;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.lars.commons.queries.executor.QueryExecutor;
+import org.lars.commons.queries.executor.QueryResult;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Select<M> extends Query<M> {
     private String orderBy;
     private String limit;
-    protected ArrayList<String> columns;
+    ArrayList<String> columns;
     private ArrayList<Where> wheres;
-    private ArrayList<Joinnable> joinnables;
+    ArrayList<Stretch> stretches;
     private String offset;
     protected Creator<M> creator;
 
-    private boolean deep;
+    boolean deep;
     private boolean or=false;
 
     private void initSelect(boolean deep,String[] columns) throws CreatorException {
@@ -37,10 +29,10 @@ public class Select<M> extends Query<M> {
             this.columns=getColumns(classModel);
         }
         if(deep){
-            this.joinnables=joins(classModel);
+            this.stretches=getStretches(classModel);
         }
     }
-    public M select(boolean deep,String... columns) throws CreatorException{
+    public M select(boolean deep,String... columns) throws CreatorException,DatabaseModelException{
         init();
         initSelect(deep,columns);
         return (M)this;
@@ -59,10 +51,10 @@ public class Select<M> extends Query<M> {
         this.offset="OFFSET "+(rows*page);
         return this;
     }
-    public Select<M> equals(String column,Object value){
+    public Select<M> equalsTo(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.equals;
         wheres.add(w);
@@ -71,7 +63,7 @@ public class Select<M> extends Query<M> {
     public Select<M> notEquals(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.notEquals;
         wheres.add(w);
@@ -80,7 +72,7 @@ public class Select<M> extends Query<M> {
     public Select<M> like(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.like;
         wheres.add(w);
@@ -89,7 +81,7 @@ public class Select<M> extends Query<M> {
     public Select<M> ilike(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.ilike;
         wheres.add(w);
@@ -98,7 +90,7 @@ public class Select<M> extends Query<M> {
     public Select<M> greater(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.grt;
         wheres.add(w);
@@ -107,7 +99,7 @@ public class Select<M> extends Query<M> {
     public Select<M> greaterOrEquals(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.grtOrEquals;
         wheres.add(w);
@@ -116,7 +108,7 @@ public class Select<M> extends Query<M> {
     public Select<M> less(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.less;
         wheres.add(w);
@@ -125,7 +117,7 @@ public class Select<M> extends Query<M> {
     public Select<M> lessOrEquals(String column,Object value){
         checkWhere();
         Where w=new Where();
-        w.columnName=column;
+        w.key=column;
         w.value=value;
         w.operator=Where.lessOrEquals;
         wheres.add(w);
@@ -148,136 +140,27 @@ public class Select<M> extends Query<M> {
             wheres=new ArrayList<>();
         }
     }
-    public QueryResult execute(Connection connection) throws SQLException {
-        StringBuilder sqlBuilder=new StringBuilder();
-        StringBuilder columnsBuilder=new StringBuilder();
-        sqlBuilder.append("SELECT ");
-        for(String column:columns){
-            columnsBuilder.append(",");
-            columnsBuilder.append("r.").append(column.replace(" ", "")).append(" ");
-            columnsBuilder.append("r_").append(column.replace(" ", ""));
-        }
-        if(deep){
-            for (int i = 0; i < joinnables.size(); i++) {
-                Joinnable joinnable=joinnables.get(i);
-                if(joinnable.type==Query.oneToOne){
-                    for(String column:joinnable.columns){
-                        columnsBuilder.append(",")
-                                .append("r").append(i).append(".")
-                                .append(column.replace(" ",""))
-                                .append(" ").append("r").append(i).append("_")
-                                .append(column.replace(" ",""));
-                    }
-                }
-            }
-        }
-        columnsBuilder.deleteCharAt(0);
-        sqlBuilder.append(columnsBuilder);
-        sqlBuilder.append(" FROM ");
-        sqlBuilder.append(tablename).append(" r");
-        if(deep){
-            for (int i = 0; i < joinnables.size(); i++) {
-                Joinnable joinnable = joinnables.get(i);
-                if(joinnable.type==Query.oneToOne){
-                    sqlBuilder.append(" JOIN ")
-                            .append(joinnable.tablename)
-                            .append(" r")
-                            .append(i)
-                            .append(" ON ")
-                            .append("r.").append(joinnable.localkey)
-                            .append("=r").append(i).append(".")
-                            .append(joinnable.foreignkey)
-                            .append(" ");
-                    joinnable.alias="r"+i;
-                }
-            }
-        }
-        if(wheres!=null){
-            String separator;
-            if(or){
-                separator=" OR ";
-            }else{
-                separator=" AND ";
-            }
-            sqlBuilder.append(" WHERE ");
-            for(int i=0;i<wheres.size();i++){
-                Where w=wheres.get(i);
-                if(i>0){
-                    sqlBuilder.append(separator);
-                }
-                sqlBuilder.append(w.columnName.replace(" ",""));
-                sqlBuilder.append(" ");
-                sqlBuilder.append(w.operator);
-                sqlBuilder.append(" ?");
-            }
-        }
-        if(orderBy!=null){
-            sqlBuilder.append(" ");
-            sqlBuilder.append(orderBy);
-        }
-        if(limit!=null){
-            sqlBuilder.append(" ");
-            sqlBuilder.append(limit);
-        }
-        if(offset!=null){
-            sqlBuilder.append(" ");
-            sqlBuilder.append(offset);
-        }
-        PreparedStatement statement=connection.prepareStatement(sqlBuilder.toString());
-        if(wheres!=null){
-            for (int i=1;i<=wheres.size();i++){
-                Where w=wheres.get(i-1);
-                statement.setObject(i,w.value);
-            }
-        }
-        QueryResult queryResult=new QueryResult();
-        queryResult.rs=statement.executeQuery();
-        queryResult.joinnables=this.joinnables;
-        queryResult.aliases=new ArrayList<>();
-        queryResult.deep=deep;
-        queryResult.aliases.add("r");
-        if(deep){
-            for (int i = 0; i < joinnables.size(); i++) {
-                queryResult.aliases.add("r"+i);
-            }
-        }
-        return queryResult;
+    private QueryResult execute() throws DatabaseModelException{
+        SelectBuilder builder=new SelectBuilder();
+        String sql=builder.buildSelect(columns,deep,stretches,tablename,wheres,or,orderBy,limit,offset);
+        QueryExecutor executor=new QueryExecutor();
+        return executor.executeSelect(sql,this.wheres,stretches);
     }
     public M executeOne() throws CreatorException {
         checkCreator();
-        try (Connection connection = getConnection()) {
-            return creator.createOne(this.execute(connection), this.getClass(), connection);
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            throw new CreatorException("Cannot open connection due to : "+e.getMessage(),e);
+        try {
+            return creator.createOne(this.execute(), this.getClass());
+        }catch (DatabaseModelException e){
+            throw new CreatorException(e.getMessage(),e);
         }
     }
     public List<M> executeMany() throws CreatorException {
         checkCreator();
-        try (Connection connection = getConnection()) {
-            return creator.createMany(this.execute(connection), classModel, connection);
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            throw new CreatorException("Cannot open connection due to : "+e.getMessage(),e);
+        try{
+            return creator.createMany(this.execute(),classModel);
+        }catch (DatabaseModelException dbe){
+            throw new CreatorException(dbe.getMessage(),dbe);
         }
-    }
-    Object getGeneratedValue(String generator,Connection connection,Class type) throws SQLException {
-        try(PreparedStatement statement=connection.prepareStatement("SELECT nextval(?)::"+type.getName().replace("java.lang.",""))){
-            statement.setString(1,generator);
-            ResultSet rs=statement.executeQuery();
-            rs.next();
-            Object generated= rs.getObject("nextval",type);
-            rs.close();
-            return type.cast(generated);
-        }
-    }
-    public ResultSet executeRaw(String raw, Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(raw);
-        if (wheres != null) {
-            for (int i = 1; i <= wheres.size(); i++) {
-                Where w = wheres.get(i - 1);
-                statement.setObject(i, w.value);
-            }
-        }
-        return statement.executeQuery();
     }
     private void checkCreator(){
         if(creator==null){

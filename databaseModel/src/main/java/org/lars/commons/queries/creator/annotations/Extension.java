@@ -7,13 +7,12 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Join {
+public @interface Extension {
     int value() default 0;
-    String table();
+    String table() default "";
     String localKey();
     String foreignKey();
-    Class classModel();
-
-    boolean dropsOnDelete() default false;
+    Class<?> classModel();
+    boolean cascade() default false;
     boolean deep() default false;
 }

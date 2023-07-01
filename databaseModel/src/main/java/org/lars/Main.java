@@ -1,11 +1,9 @@
 package org.lars;
+import org.lars.commons.queries.DatabaseModelException;
 import org.lars.commons.queries.creator.CreatorException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws CreatorException, SQLException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws CreatorException, DatabaseModelException {
 //        for(Person person:new Person().select(false).executeMany()){
 //            System.out.println("Id : "+person.id);
 //            System.out.println("Name : "+person.name);
