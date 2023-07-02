@@ -12,8 +12,17 @@ public class Delete<M> extends Insert<M> {
         init();
         DeleteBuilder builder=new DeleteBuilder();
         QueryExecutor executor=new QueryExecutor();
-        this.stretches=getStretches(classModel);
         ArrayList<KeyValue> keyValues=new ArrayList<>();
+        Connection connection=executor.getConnection();
+        deleteChildren();
+        String sql=builder.build(this,initFieldsof(classModel),keyValues);
+        executor.executeUpdate(sql,keyValues,connection);
+    }
+    void deleteChildren() throws DatabaseModelException{
+        init();
+        DeleteBuilder builder=new DeleteBuilder();
+        QueryExecutor executor=new QueryExecutor();
+        this.stretches=getStretches(classModel);
         Connection connection=executor.getConnection();
         if(stretches!=null){
             for (Stretch stretch:stretches) {
@@ -24,7 +33,5 @@ public class Delete<M> extends Insert<M> {
                 }
             }
         }
-        String sql=builder.build(this,initFieldsof(classModel),keyValues);
-        executor.executeUpdate(sql,keyValues,connection);
     }
 }

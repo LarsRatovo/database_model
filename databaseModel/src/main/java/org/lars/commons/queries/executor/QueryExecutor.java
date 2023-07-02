@@ -54,6 +54,9 @@ public class QueryExecutor {
         }
     }
     public void executeUpdate(String sql, List<KeyValue> keyValues,Connection connection) throws DatabaseModelException {
+        if(connection==null){
+            connection=getConnection();
+        }
         try (PreparedStatement preparedStatement=connection.prepareStatement(sql)){
             for(KeyValue keyValue:keyValues){
                 preparedStatement.setObject(keyValue.getId(),keyValue.getValue());

@@ -4,6 +4,7 @@ import org.lars.commons.queries.Entity;
 import org.lars.commons.queries.Query;
 import org.lars.commons.queries.creator.annotations.Column;
 import org.lars.commons.queries.creator.annotations.Extension;
+import org.lars.commons.queries.creator.annotations.Key;
 import org.lars.commons.queries.creator.annotations.Linked;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 @Linked("jobs")
 public class Job extends Entity<Job> {
     @Column(autogenMode = Query.generatedValue)
+    @Key
     Integer id;
     @Column
     String name;
