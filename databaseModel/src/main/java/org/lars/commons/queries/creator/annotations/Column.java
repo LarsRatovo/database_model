@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 public @interface Column {
     String value() default "";
-    boolean autogen() default false;
     int autogenMode() default 0;
     String generator() default "";
 }

@@ -13,6 +13,8 @@ public class Query<M> {
     public static final int many=1;
     public static final int generator=1;
     public static final int self=2;
+    public static final int generatedValue=3;
+
     protected Class<M> classModel;
 
     protected String tablename;

@@ -5,33 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c66c90e-95af-4608-9260-8599f506ec3f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/DatabaseModelException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/KeyValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Stretch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/SelectBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Generate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TODO" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Insert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/InsertBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Test.todo" beforeDir="false" afterPath="$PROJECT_DIR$/../Test.todo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Transfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Transfer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Delete.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Insert.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Joinnable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/KeyValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/KeyValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Query.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Select.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Select.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Update.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/View.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Where.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Where.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/Creator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/Creator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/CreatorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/CreatorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Join.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Extension.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/database.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/database.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Stretch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Stretch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/SelectBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/SelectBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Column.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../test.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,24 +53,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "integration__detail",
-    "last_opened_file_path": "/home/larsr/Documents/GitHub/database_model/databaseModel",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Insert__new__version&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/larsr/Documents/GitHub/database_model/databaseModel&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="DataBaseModel" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.lars.Main" />
@@ -108,6 +97,8 @@
       <workItem from="1688054803775" duration="3246000" />
       <workItem from="1688179966152" duration="20000" />
       <workItem from="1688194938360" duration="19008000" />
+      <workItem from="1688251860073" duration="3046000" />
+      <workItem from="1688269746779" duration="518000" />
     </task>
     <servers />
   </component>

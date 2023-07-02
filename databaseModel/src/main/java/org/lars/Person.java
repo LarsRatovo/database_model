@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @Linked("persons")
 public class Person extends Entity<Person> {
-    @Column(autogen = true,autogenMode = Query.generator)
+    @Column(autogenMode = Query.generatedValue)
     @Key
     Integer id;
     @Column
@@ -24,8 +24,10 @@ public class Person extends Entity<Person> {
     Date birth;
     @Column
     BigDecimal weight;
+    @Column
+    Integer job;
     @Extension(table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
     Job actual_job;
-    @Extension(value = Query.many,table = "transfer",localKey = "id",foreignKey = "person",classModel = Transfer.class,deep = true)
+    @Extension(value = Query.many,table = "transfer",localKey = "id",foreignKey = "person",classModel = Transfer.class,deep = true,cascade = true)
     ArrayList<Transfer> transfers;
 }

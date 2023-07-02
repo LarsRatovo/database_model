@@ -12,9 +12,5 @@ public class Transfer extends Entity<Transfer> {
     @Column
     Integer person;
     @Column
-    Integer job;
-    @Column
     Date transfer_date;
-    @Extension(table = "jobs",localKey = "job",foreignKey = "id",classModel = Job.class)
-    Job history_job;
 }

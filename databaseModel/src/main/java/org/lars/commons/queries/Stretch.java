@@ -42,7 +42,8 @@ public class Stretch {
     public Field getField() {
         return field;
     }
-    public boolean isDeep(){
-        return extension.deep();
+    public boolean isCascade(){
+        return extension.cascade();
     }
+    public Class getExtensionObjectType(){return extension.classModel();}
 }

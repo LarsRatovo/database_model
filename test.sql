@@ -16,7 +16,6 @@ CREATE TABLE persons
 CREATE TABLE transfer
 (
     person INTEGER NOT NULL REFERENCES persons(id),
-    job INTEGER NOT NULL REFERENCES jobs(id),
     transfer_date DATE NOT NULL
 );
 -- Test rows for the "jobs" table

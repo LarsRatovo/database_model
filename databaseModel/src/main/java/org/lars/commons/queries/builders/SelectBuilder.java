@@ -79,6 +79,7 @@ public class SelectBuilder {
                 whereStatement.append(" ");
                 whereStatement.append(where.getOperator());
                 whereStatement.append(" ?");
+                where.setId(i+1);
             }
         }
         return whereStatement.toString();

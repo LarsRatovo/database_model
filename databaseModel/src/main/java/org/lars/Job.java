@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 @Linked("jobs")
 public class Job extends Entity<Job> {
-    @Column
+    @Column(autogenMode = Query.generatedValue)
     Integer id;
     @Column
     String name;
-    @Extension(value = Query.many, table = "persons", localKey = "id", foreignKey = "job", classModel = Person.class)
-    ArrayList<Person> employs;
+    @Extension(cascade = true,table = "persons",localKey = "id",foreignKey = "job",classModel = Person.class)
+    Person p;
 }

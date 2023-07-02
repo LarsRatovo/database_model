@@ -11,36 +11,65 @@ import java.util.List;
 import java.util.Properties;
 
 public class QueryExecutor {
-    protected Connection getConnection() throws IOException, ClassNotFoundException, SQLException {
-        Properties properties=new Properties();
-        properties.load(this.getClass().getClassLoader().getResourceAsStream("database.properties"));
-        Class.forName(properties.getProperty("db.classname"));
-        return DriverManager.getConnection(properties.getProperty("db.url"),properties.getProperty("db.user"),properties.getProperty("db.password"));
+    public Connection getConnection() throws DatabaseModelException {
+        try {
+            Properties properties=new Properties();
+            properties.load(this.getClass().getClassLoader().getResourceAsStream("database.properties"));
+            Class.forName(properties.getProperty("db.classname"));
+            return DriverManager.getConnection(properties.getProperty("db.url"),properties.getProperty("db.user"),properties.getProperty("db.password"));
+
+        }catch (IOException | ClassNotFoundException | SQLException e){
+            throw new DatabaseModelException(e.getMessage());
+        }
     }
     public QueryResult executeSelect(String sql, List<Where> wheres, List<Stretch> stretches) throws DatabaseModelException {
             return new QueryResult(executeQuery(sql,wheres),stretches);
     }
     ResultSet executeQuery(String sql, List< ? extends KeyValue> keyValues) throws DatabaseModelException {
+        Connection connection=null;
+        PreparedStatement statement=null;
         try {
-            Connection connection=getConnection();
-            PreparedStatement statement=connection.prepareStatement(sql);
+            connection=getConnection();
+            statement=connection.prepareStatement(sql);
             if(keyValues!=null){
-                for (int i = 1; i <=keyValues.size() ; i++) {
-                    statement.setObject(i,keyValues.get(i-1).getValue());
+                for (KeyValue keyValue:keyValues) {
+                    statement.setObject(keyValue.getId(),keyValue.getValue());
                 }
             }
             System.out.println(statement.toString());
             return statement.executeQuery();
-        }catch (IOException|ClassNotFoundException|SQLException connectionException){
+        }catch (SQLException connectionException){
             throw new DatabaseModelException(connectionException.getMessage());
+        }finally {
+            try {
+                if(statement!=null){
+                    statement.close();
+                }
+                if(connection!=null){
+                    connection.close();
+                }
+            }catch (SQLException e){
+                throw new DatabaseModelException(e.getMessage());
+            }
         }
     }
-    Object getGeneratedValue(String generator,Class<?> type) throws DatabaseModelException {
-        String sqlBuilder = "SELECT nextval(" +generator.replace(" ", "")+")::" + type.getName().replace("java.lang.", "");
-        ResultSet rs=executeQuery(sqlBuilder,null);
+    public void executeUpdate(String sql, List<KeyValue> keyValues,Connection connection) throws DatabaseModelException {
+        try (PreparedStatement preparedStatement=connection.prepareStatement(sql)){
+            for(KeyValue keyValue:keyValues){
+                preparedStatement.setObject(keyValue.getId(),keyValue.getValue());
+            }
+            System.out.println(preparedStatement.toString());
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            throw new DatabaseModelException(e.getMessage());
+        }
+    }
+    public Object getGeneratedValue(String generator,Class<?> type,Connection connection) throws DatabaseModelException, SQLException {
+        String sqlBuilder = "SELECT nextval('" +generator.replace(" ", "")+"')::" + type.getName().replace("java.lang.", "");
+        ResultSet rs=connection.prepareStatement(sqlBuilder.toString()).executeQuery();
         try {
+            rs.next();
             Object genered=rs.getObject("nextval",type);
-            rs.close();
             return genered;
         }catch (SQLException e){
             throw new DatabaseModelException(e.getMessage());
