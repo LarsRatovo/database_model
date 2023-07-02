@@ -5,23 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c66c90e-95af-4608-9260-8599f506ec3f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Insert.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/InsertBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Test.todo" beforeDir="false" afterPath="$PROJECT_DIR$/../Test.todo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Delete.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/DeleteBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Transfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Transfer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/KeyValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/KeyValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Query.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Stretch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Stretch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/SelectBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/SelectBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/creator/annotations/Column.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../test.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +50,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Insert__new__version&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;delete__new__vers&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/larsr/Documents/GitHub/database_model/databaseModel&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -99,6 +89,8 @@
       <workItem from="1688194938360" duration="19008000" />
       <workItem from="1688251860073" duration="3046000" />
       <workItem from="1688269746779" duration="518000" />
+      <workItem from="1688303174273" duration="2278000" />
+      <workItem from="1688310769053" duration="1592000" />
     </task>
     <servers />
   </component>

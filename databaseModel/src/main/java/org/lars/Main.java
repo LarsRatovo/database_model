@@ -12,6 +12,7 @@ public class Main {
 //            System.out.println("Name : "+person.name);
 //        }
         Job j=new Job();
+        j.id=25;
         j.name="CHARGER";
         Person person=new Person();
         person.name="Test2";
@@ -38,7 +39,8 @@ public class Main {
         person.transfers.add(t1);
         person.transfers.add(t2);
         person.transfers.add(t3);
-        j.insert();
+        j.delete();
+//        j.insert();
         //        person.insert();
 //        for (Person p:person.select(true).executeMany()){
 //            System.out.println("Id : "+p.id);

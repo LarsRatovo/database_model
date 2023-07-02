@@ -30,7 +30,7 @@ public class Query<M> {
         }
         return cols;
     }
-    protected ArrayList<Stretch> getStretches(Class<?> checkingClass) throws CreatorException {
+    protected ArrayList<Stretch> getStretches(Class<?> checkingClass){
         Class<?> checking=checkingClass;
         ArrayList<Stretch> stretches=new ArrayList<>();
         int id=0;

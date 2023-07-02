@@ -66,12 +66,10 @@ public class QueryExecutor {
     }
     public Object getGeneratedValue(String generator,Class<?> type,Connection connection) throws DatabaseModelException, SQLException {
         String sqlBuilder = "SELECT nextval('" +generator.replace(" ", "")+"')::" + type.getName().replace("java.lang.", "");
-        ResultSet rs=connection.prepareStatement(sqlBuilder.toString()).executeQuery();
-        try {
+        try (ResultSet rs = connection.prepareStatement(sqlBuilder.toString()).executeQuery()) {
             rs.next();
-            Object genered=rs.getObject("nextval",type);
-            return genered;
-        }catch (SQLException e){
+            return rs.getObject("nextval", type);
+        } catch (SQLException e) {
             throw new DatabaseModelException(e.getMessage());
         }
     }
