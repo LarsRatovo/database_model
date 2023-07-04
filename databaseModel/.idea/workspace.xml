@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c66c90e-95af-4608-9260-8599f506ec3f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Update.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/builders/UpdateBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Job.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Delete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Insert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/Insert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lars/commons/queries/executor/QueryExecutor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,24 +38,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "update__new__vers",
-    "last_opened_file_path": "/home/larsr/Documents/GitHub/database_model/databaseModel",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;update__new__vers&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/larsr/Documents/GitHub/database_model/databaseModel&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="DataBaseModel" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.lars.Main" />
@@ -93,6 +86,7 @@
       <workItem from="1688269746779" duration="518000" />
       <workItem from="1688303174273" duration="2278000" />
       <workItem from="1688310769053" duration="9467000" />
+      <workItem from="1688448080023" duration="463000" />
     </task>
     <servers />
   </component>
