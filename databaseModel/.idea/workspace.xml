@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c66c90e-95af-4608-9260-8599f506ec3f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/databaseModel_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/databaseModel_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +45,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;build__new__vers&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/larsr/Documents/GitHub/database_model/databaseModel&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/lars/Documents/GitHub/database_model/databaseModel&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -87,6 +86,8 @@
       <workItem from="1688310769053" duration="9467000" />
       <workItem from="1688448080023" duration="1362000" />
       <workItem from="1688453198290" duration="68000" />
+      <workItem from="1688912684922" duration="30000" />
+      <workItem from="1688914490085" duration="644000" />
     </task>
     <servers />
   </component>
